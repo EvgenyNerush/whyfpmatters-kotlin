@@ -107,5 +107,27 @@ fun main() {
 
     // Thus foldr(Cons, Nil, xs) = xs, and we can reuse `foldr` even further,
     // e.g. we can substitute `Nil` with another list:
-    fun <T> append(xs: MyList<T>, ys: MyList<T>): MyList<T> = foldr(::MyList.Cons<T>, ys, xs)
+
+    // I don't know how to pass `Cons()` directly to `append`
+    fun <T> cons(x: T, xs: MyList<T>): MyList.Cons<T> {
+        return MyList.Cons(x, xs)
+    }
+    fun <T> append(xs: MyList<T>, ys: MyList<T>): MyList<T> = foldr(::cons, ys, xs)
+    println("sum [4,1,2,4,1,2] = ${sum(append(ints, ints))}") // 14
+
+    // That if we substitute `Cons()` with `count`?
+    fun <T> count(x: T, n: Int): Int = n + 1
+    // `count` increments 0 as many times as there are `Cons`
+    fun <T> length(xs: MyList<T>): Int = foldr(::count, 0, xs)
+    println("length of [4,1,2] = ${length(ints)}") // 3
+
+    // Now we would write a function which `plusOne` all the elements of a list,
+    // for which we replace `Cons(x, xs)` with `Cons(plusOne x, xs)`. However, this can be
+    // generalized.
+    fun <A, B> fandCons(f: (A) -> B): (A, MyList<B>) -> MyList<B> = { x, xs -> MyList.Cons(f(x), xs) }
+    fun <A, B> map(f: (A) -> B, xs: MyList<A>): MyList<B> = foldr(fandCons(f), MyList.Nil, xs)
+    // note that `map` can be obviously written using `when`
+
+    fun plusOne(x: Int) = x + 1
+    println("sum of [5,2,3] = ${sum(map(::plusOne, ints))}") // 10
 }
