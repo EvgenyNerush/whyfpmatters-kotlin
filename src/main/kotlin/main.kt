@@ -4,7 +4,7 @@ import kotlin.math.sin
 fun main() {
     //// Functions are the first-class passengers ////
 
-    // any function of Pi
+    // any function of Pi; note functional type here
     fun ofPi(f: (Double) -> Double): Double {
         return f(PI)
     }
@@ -43,7 +43,7 @@ fun main() {
 
     //// It's time to make some lists... ////
 
-    /* "Modular design brings with it great productivity improvements.
+   /* "Modular design brings with it great productivity improvements.
    First of all, small modules can be coded quickly and easily. Second,
    general-purpose modules can be reused, leading to faster development
    of subsequent programs. Third, the modules of a program can be tested
@@ -58,6 +58,7 @@ fun main() {
     // [1, 2]
     val c = MyList.Cons(1, MyList.Cons(2, MyList.Nil))
 
+    // simple recursive function
     fun sum(list: MyList<Int>): Int {
         val res = when (list) {
             is MyList.Nil  -> 0
@@ -88,7 +89,7 @@ fun main() {
 
     // note zero = 1 here
     fun product(xs: MyList<Int>) = foldr(Int::times,1, xs)
-    fun anyTrue(xs: MyList<Boolean>) = foldr( Boolean::xor, false, xs)
+    fun anyTrue(xs: MyList<Boolean>) = foldr( Boolean::or, false, xs)
     fun allTrue(xs: MyList<Boolean>) = foldr( Boolean::and, true , xs)
 
     // [4, 1, 2]
