@@ -25,8 +25,9 @@ fun main() {
 
     // let's try
     fun g(x: Double) = x * x
-    val h = apply(::g, 2) // (x^2)^2 = x^4
-    println("${h(2.0)}") // 16.0
+    fun h(x: Double) = apply(::g, 2)(x) // (x^2)^2 = x^4
+    // `val h = apply(::g, 2)` is also possible
+    println("${h(3.0)}") // 81.0
 
     //// Algebraic data types: see classes.kt ////
 
@@ -125,8 +126,10 @@ fun main() {
     // Now we would write a function which `plusOne` all the elements of a list,
     // for which we replace `Cons(x, xs)` with `Cons(plusOne x, xs)`. However, this can be
     // generalized.
-    fun <A, B> fandCons(f: (A) -> B): (A, MyList<B>) -> MyList<B> = { x, xs -> MyList.Cons(f(x), xs) }
-    fun <A, B> map(f: (A) -> B, xs: MyList<A>): MyList<B> = foldr(fandCons(f), MyList.Nil, xs)
+    fun <A, B> fandCons(f: (A) -> B): (A, MyList<B>) -> MyList<B> =
+        { x, xs -> MyList.Cons(f(x), xs) }
+    fun <A, B> map(f: (A) -> B, xs: MyList<A>): MyList<B> =
+        foldr(fandCons(f), MyList.Nil, xs)
     // note that `map` can be obviously written using `when`
 
     fun plusOne(x: Int) = x + 1
