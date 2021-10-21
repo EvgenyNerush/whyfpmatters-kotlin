@@ -31,7 +31,7 @@ fun main() {
 
     //// Algebraic data types: see classes.kt ////
 
-    fun printJust(x: Maybe) {
+    fun printMaybe(x: Maybe) {
         // pattern matching
         when (x) {
             is Maybe.Just -> println("${x.value}")
@@ -40,7 +40,7 @@ fun main() {
     }
 
     val num = Maybe.Just(5.0)
-    printJust(num) // 5.0
+    printMaybe(num) // 5.0
 
     //// It's time to make some lists... ////
 
